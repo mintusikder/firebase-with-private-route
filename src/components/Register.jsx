@@ -1,6 +1,20 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../authProvider/AuthProvider";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const { createUser } = useContext(AuthContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -13,17 +27,50 @@ const Register = () => {
           </p>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <form className="card-body">
+          <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Full Name</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full name"
+                {...register("fullName", { required: true })}
+                className="input input-bordered"
+              />
+              {errors.fullName && (
+                <span className="text-red-500">This field is required</span>
+              )}
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="email"
+                {...register("email", { required: true })}
                 className="input input-bordered"
-                required
               />
+              {errors.email && (
+                <span className="text-red-500">This field is required</span>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Image Url</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Image Url"
+                {...register("url")}
+                className="input input-bordered"
+              />
+              {errors.url && (
+                <span className="text-red-500">This field is required</span>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
@@ -32,9 +79,12 @@ const Register = () => {
               <input
                 type="password"
                 placeholder="password"
+                {...register("password", { required: true })}
                 className="input input-bordered"
-                required
               />
+              {errors.password && (
+                <span className="text-red-500">This field is required</span>
+              )}
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
