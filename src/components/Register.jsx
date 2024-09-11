@@ -12,7 +12,10 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    createUser(data.email, data.password)
+    .then(result =>{
+        console.log(result)
+    })
   };
 
   return (
@@ -34,7 +37,6 @@ const Register = () => {
               </label>
               <input
                 type="text"
-                name="name"
                 placeholder="Full name"
                 {...register("fullName", { required: true })}
                 className="input input-bordered"
@@ -49,7 +51,6 @@ const Register = () => {
               </label>
               <input
                 type="email"
-                name="email"
                 placeholder="email"
                 {...register("email", { required: true })}
                 className="input input-bordered"
