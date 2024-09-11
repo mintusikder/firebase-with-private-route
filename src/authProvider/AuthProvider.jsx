@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "../firebase.config";
-
+import PropTypes from 'prop-types';
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
@@ -64,3 +64,6 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+AuthProvider.propTypes={
+  children: PropTypes.node
+}
