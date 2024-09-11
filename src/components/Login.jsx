@@ -1,13 +1,25 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import SocialLogin from "./SocialLogin";
 
 const Login = () => {
+  const { signInUser } = useAuth;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    signInUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -31,7 +43,6 @@ const Login = () => {
                 placeholder="email"
                 {...register("email", { required: true })}
                 className="input input-bordered"
-               
               />
               {errors.email && (
                 <span className="text-red-500">This field is required</span>
@@ -46,7 +57,6 @@ const Login = () => {
                 placeholder="password"
                 {...register("password", { required: true })}
                 className="input input-bordered"
-               
               />
               {errors.password && (
                 <span className="text-rose-500">This field is required</span>
@@ -66,7 +76,9 @@ const Login = () => {
                 Register
               </Link>
             </p>
+          
           </form>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>
