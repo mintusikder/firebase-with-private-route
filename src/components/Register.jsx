@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
+import { useContext } from "react";
+import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useAuth;
+  const { createUser } = useContext(AuthContext)
 
   const {
     register,
@@ -11,9 +13,13 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    createUser(data.email, data.password).then((result) => {
+    createUser(data.email, data.password)
+    .then((result) => {
       console.log(result);
-    });
+    })
+    .catch(error =>{
+      console.error(error)
+    })
   };
 
   return (
