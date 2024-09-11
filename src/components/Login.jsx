@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 import SocialLogin from "./SocialLogin";
 
 const Login = () => {
-  const { signInUser } = useAuth;
+  const { signInUser } = useAuth();
   const {
     register,
     handleSubmit,

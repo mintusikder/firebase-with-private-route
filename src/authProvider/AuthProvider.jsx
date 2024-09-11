@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
   getAuth,
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -11,14 +12,15 @@ import {
   TwitterAuthProvider,
 } from "firebase/auth";
 import app from "../firebase.config";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
-  const gitHubProvider = new GithubAuthProvider()
+  const gitHubProvider = new GithubAuthProvider();
   const twitterProvider = new TwitterAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   //create user
@@ -37,16 +39,21 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
-  //gitHubSignIn 
-  const github = () =>{
+  //gitHubSignIn
+  const github = () => {
     setLoading(true);
     return signInWithPopup(auth, gitHubProvider);
-  }
-  //twitterSignIn 
-  const twitter = () =>{
+  };
+  //twitterSignIn
+  const twitter = () => {
     setLoading(true);
-    return signInWithPopup(auth, gitHubProvider);
-  }
+    return signInWithPopup(auth, twitterProvider);
+  };
+  //facebook
+  const facebook = () => {
+    setLoading(true);
+    return signInWithPopup(auth, facebookProvider);
+  };
   //logOut
   const logOut = () => {
     setLoading(true);
@@ -56,16 +63,14 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setLoading(false);
-      console.log("Current user", currentUser)
+      console.log("Current user", currentUser);
       setUser(currentUser);
     });
     return () => {
       unSubscribe();
     };
   }, []);
-
-
-
+  
   const info = {
     user,
     loading,
@@ -74,12 +79,13 @@ const AuthProvider = ({ children }) => {
     logOut,
     google,
     github,
-    twitter
+    twitter,
+    facebook,
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
-AuthProvider.propTypes={
-  children: PropTypes.node
-}
+AuthProvider.propTypes = {
+  children: PropTypes.node,
+};
