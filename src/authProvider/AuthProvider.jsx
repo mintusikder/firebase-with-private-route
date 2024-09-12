@@ -6,6 +6,7 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -64,6 +65,11 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, facebookProvider);
   };
+  //forget Pss
+  const forgetPass = (email) =>{
+    setLoading(true);
+   return sendPasswordResetEmail(auth,email)
+  }
   //logOut
   const logOut = () => {
     setLoading(true);
@@ -92,6 +98,7 @@ const AuthProvider = ({ children }) => {
     twitter,
     facebook,
     updateUserProfile,
+    forgetPass
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };

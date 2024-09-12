@@ -21,6 +21,7 @@ const Register = () => {
     createUser(data.email, data.password)
       //create user and update profile
       .then(() => {
+        
         updateUserProfile(fullName).then(() => {
           navigate(form);
         });

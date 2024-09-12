@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import SocialLogin from "./SocialLogin";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 const Login = () => {
   const { signInUser } = useAuth();
@@ -67,11 +68,7 @@ const Login = () => {
               {errors.password && (
                 <span className="text-rose-500">This field is required</span>
               )}
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
+              <ResetPasswordModal></ResetPasswordModal>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
