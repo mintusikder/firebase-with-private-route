@@ -1,11 +1,11 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 // import useAuth from "../hooks/useAuth";
 import { useContext } from "react";
 import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
 
   const {
     register,
@@ -13,15 +13,17 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const location = useLocation();
-  const form = location?.state || "/";
+
+  const form = "/";
 
   const onSubmit = (data) => {
+    const { fullName } = data;
     createUser(data.email, data.password)
-      .then((result) => {
-        if (result.user) {
+      //create user and update profile
+      .then(() => {
+        updateUserProfile(fullName).then(() => {
           navigate(form);
-        }
+        });
       })
       .catch((error) => {
         console.error(error);
