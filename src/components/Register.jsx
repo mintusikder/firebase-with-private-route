@@ -1,25 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 // import useAuth from "../hooks/useAuth";
 import { useContext } from "react";
 import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext)
+  const { createUser } = useContext(AuthContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const form = location?.state || "/";
+
   const onSubmit = (data) => {
     createUser(data.email, data.password)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch(error =>{
-      console.error(error)
-    })
+      .then((result) => {
+        if (result.user) {
+          navigate(form);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
